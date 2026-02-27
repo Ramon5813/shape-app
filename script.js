@@ -1,15 +1,121 @@
 // =====================================
-// INICIALIZAÇÃO
+// CONFIGURAÇÃO PESO
+// =====================================
+
+const pesoInicial = 89;
+const metaCutting = 82;
+const metaBulking = 95;
+
+// =====================================
+// INICIALIZAÇÃO GLOBAL
 // =====================================
 
 window.onload = function () {
+    configurarPeso();
     configurarReceitas();
     configurarBuscaEFiltro();
     carregarReceitas();
+    atualizarProgresso();
 };
 
 // =====================================
-// CONFIGURAR FORMULÁRIO
+// ================= PESO (INDEX)
+// =====================================
+
+function configurarPeso() {
+
+    const btnSalvar = document.getElementById("salvarPeso");
+    const btnModo = document.getElementById("btnModo");
+
+    if (btnSalvar) btnSalvar.addEventListener("click", salvarPeso);
+    if (btnModo) btnModo.addEventListener("click", alternarModo);
+}
+
+function salvarPeso() {
+
+    const input = document.getElementById("inputPeso");
+    if (!input) return;
+
+    const peso = parseFloat(input.value);
+    if (!peso) return;
+
+    localStorage.setItem("pesoAtual", peso);
+    input.value = "";
+
+    atualizarProgresso();
+}
+
+function alternarModo() {
+
+    let modo = localStorage.getItem("modo") || "cutting";
+    modo = modo === "cutting" ? "bulking" : "cutting";
+
+    localStorage.setItem("modo", modo);
+    atualizarProgresso();
+}
+
+function atualizarProgresso() {
+
+    const pesoElemento = document.getElementById("pesoAtual");
+    const barra = document.getElementById("barraProgresso");
+    const diferencaElemento = document.getElementById("diferencaPeso");
+    const btnModo = document.getElementById("btnModo");
+
+    if (!pesoElemento || !barra) return;
+
+    const pesoAtual = parseFloat(localStorage.getItem("pesoAtual"));
+    if (!pesoAtual) return;
+
+    const modo = localStorage.getItem("modo") || "cutting";
+    const meta = modo === "cutting" ? metaCutting : metaBulking;
+
+    if (btnModo) {
+        btnModo.innerText =
+            modo === "cutting"
+                ? "Modo: Cutting 🔥"
+                : "Modo: Bulking 💪";
+    }
+
+    pesoElemento.innerText = "Peso Atual: " + pesoAtual + " kg";
+
+    const diferenca = pesoAtual - pesoInicial;
+
+    if (diferencaElemento) {
+        if (diferenca < 0) {
+            diferencaElemento.innerText = diferenca.toFixed(1) + " kg 🔽";
+            diferencaElemento.style.color = "limegreen";
+        } else if (diferenca > 0) {
+            diferencaElemento.innerText = "+" + diferenca.toFixed(1) + " kg 🔼";
+            diferencaElemento.style.color = "red";
+        } else {
+            diferencaElemento.innerText = "Sem alteração";
+            diferencaElemento.style.color = "white";
+        }
+    }
+
+    let progresso;
+
+    if (modo === "cutting") {
+        progresso = ((pesoInicial - pesoAtual) / (pesoInicial - meta)) * 100;
+    } else {
+        progresso = ((pesoAtual - pesoInicial) / (meta - pesoInicial)) * 100;
+    }
+
+    progresso = Math.max(0, Math.min(100, progresso));
+    barra.style.width = progresso + "%";
+
+    if (
+        (modo === "cutting" && diferenca < 0) ||
+        (modo === "bulking" && diferenca > 0)
+    ) {
+        barra.style.backgroundColor = "limegreen";
+    } else {
+        barra.style.backgroundColor = "red";
+    }
+}
+
+// =====================================
+// ================= RECEITAS
 // =====================================
 
 function configurarReceitas() {
@@ -27,11 +133,7 @@ function configurarReceitas() {
         const ingredientes = document.getElementById("ingredientes").value;
         const editIndex = document.getElementById("editIndex").value;
 
-        const novaReceita = {
-            nome: nome,
-            categoria: categoria,
-            ingredientes: ingredientes
-        };
+        const novaReceita = { nome, categoria, ingredientes };
 
         if (editIndex === "") {
             receitas.push(novaReceita);
@@ -48,27 +150,14 @@ function configurarReceitas() {
     });
 }
 
-// =====================================
-// BUSCA E FILTRO
-// =====================================
-
 function configurarBuscaEFiltro() {
 
     const busca = document.getElementById("busca");
     const filtro = document.getElementById("filtroCategoria");
 
-    if (busca) {
-        busca.addEventListener("input", carregarReceitas);
-    }
-
-    if (filtro) {
-        filtro.addEventListener("change", carregarReceitas);
-    }
+    if (busca) busca.addEventListener("input", carregarReceitas);
+    if (filtro) filtro.addEventListener("change", carregarReceitas);
 }
-
-// =====================================
-// CARREGAR RECEITAS
-// =====================================
 
 function carregarReceitas() {
 
@@ -84,12 +173,7 @@ function carregarReceitas() {
 
     receitas.forEach(function (receita, index) {
 
-        const nomeLower = receita.nome.toLowerCase();
-
-        // FILTRO POR BUSCA
-        if (!nomeLower.includes(buscaValor)) return;
-
-        // FILTRO POR CATEGORIA
+        if (!receita.nome.toLowerCase().includes(buscaValor)) return;
         if (filtroValor !== "todas" && receita.categoria !== filtroValor) return;
 
         const card = document.createElement("div");
@@ -107,10 +191,6 @@ function carregarReceitas() {
     });
 }
 
-// =====================================
-// EDITAR
-// =====================================
-
 function editarReceita(index) {
 
     const receitas = JSON.parse(localStorage.getItem("receitas")) || [];
@@ -121,23 +201,14 @@ function editarReceita(index) {
     document.getElementById("ingredientes").value = receita.ingredientes;
     document.getElementById("editIndex").value = index;
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
-// =====================================
-// APAGAR
-// =====================================
 
 function apagarReceita(index) {
 
     const receitas = JSON.parse(localStorage.getItem("receitas")) || [];
-
     receitas.splice(index, 1);
 
     localStorage.setItem("receitas", JSON.stringify(receitas));
-
     carregarReceitas();
 }
