@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Marmitas - Ramon Fit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+<h2>🍱 Marmitas Base</h2>
+
+<!-- MARMITAS FIXAS -->
+
+<div class="card">
+<h3>🥇 Marmita 1 – Frango clássico seco</h3>
+<ul>
+<li>150–180g frango grelhado</li>
+<li>100g arroz</li>
+<li>100g batata</li>
+<li>Alface + tomate</li>
+<li>1 fio de azeite</li>
+</ul>
+<p><strong>👉 Boa pra dias de treino pesado de perna.</strong></p>
+</div>
+
+<div class="card">
+<h3>🥈 Marmita 2 – Peixe definidor</h3>
+<ul>
+<li>150g peixe grelhado</li>
+<li>120g mandioca</li>
+<li>Salada grande (alface + cenoura ralada)</li>
+<li>Limão + azeite</li>
+</ul>
+<p><strong>👉 Ajuda muito na definição.</strong></p>
+</div>
+
+<div class="card">
+<h3>🥉 Marmita 3 – Carne vermelha estratégica</h3>
+<ul>
+<li>150g patinho ou carne magra</li>
+<li>100g arroz</li>
+<li>80g feijão (opcional)</li>
+<li>Salada</li>
+</ul>
+<p><strong>👉 Usa 1-2x na semana pra manter força.</strong></p>
+</div>
+
+<div class="card">
+<h3>🐷 Marmita 4 – Porco magro (lombo)</h3>
+<ul>
+<li>150g lombo</li>
+<li>100g arroz</li>
+<li>Brócolis ou alface</li>
+<li>1 pedaço pequeno de abacaxi</li>
+</ul>
+</div>
+
+<hr>
+
+<h2>🍎 Lanches Práticos</h2>
+
+<div class="card">
+<ul>
+<li>Banana + 1 iogurte natural</li>
+<li>Morango + 3 ovos cozidos</li>
+<li>Whey + água</li>
+<li>Manga + castanhas (pouca quantidade)</li>
+</ul>
+</div>
+
+<hr>
+
+<h2>📉 Estratégia para Secar Abdômen</h2>
+
+<div class="card">
+<ul>
+<li>Dormir 7h</li>
+<li>Reduzir açúcar escondido</li>
+<li>Não beber calorias</li>
+<li>Evitar exagerar na manga</li>
+</ul>
+
+<p><strong>Melhores frutas:</strong></p>
+<ul>
+<li>Morango</li>
+<li>Abacaxi</li>
+<li>Melancia</li>
+</ul>
+</div>
+
+<hr>
+
+<!-- RECEITAS PERSONALIZADAS -->
+
+<h2>📦 Suas Receitas Personalizadas</h2>
+
+<input type="text" id="busca" placeholder="Buscar receita...">
+
+<select id="filtroCategoria">
+<option value="todas">Todas</option>
+<option value="Marmita">Marmita</option>
+<option value="Shake">Shake</option>
+<option value="Lanche">Lanche</option>
+</select>
+
+<div id="lista-receitas"></div>
+
+<hr>
+
+<h2>➕ Adicionar / Editar Receita</h2>
+
+<form id="formReceita">
+<input type="hidden" id="editIndex">
+
+<input type="text" id="nome" placeholder="Nome da Receita" required>
+
+<select id="categoria" required>
+<option value="">Categoria</option>
+<option value="Marmita">Marmita</option>
+<option value="Shake">Shake</option>
+<option value="Lanche">Lanche</option>
+</select>
+
+<textarea id="ingredientes" placeholder="Ingredientes (1 por linha)" rows="6" required></textarea>
+
+<button type="submit">Salvar Receita</button>
+</form>
+
+<br>
+<a href="index.html">⬅ Voltar</a>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

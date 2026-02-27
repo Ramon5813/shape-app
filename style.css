@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: white;
+}
+
+.app {
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+}
+
+.card {
+    background: #1e1e1e;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    white-space: pre-line;
+}
+
+input, select, textarea, button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+button {
+    background: #00c853;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu {
+    display: grid;
+    gap: 15px;
+}
+
+.card-menu {
+    background: #1e1e1e;
+    padding: 20px;
+    text-align: center;
+    border-radius: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.progress-bar {
+    background: #333;
+    height: 20px;
+    border-radius: 10px;
+}
+
+#barraProgresso {
+    background: #00e676;
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+}
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+#barraProgresso {
+    height: 100%;
+    width: 0%;
+    background: #00c3ff;
+    transition: width 0.6s ease, background-color 0.6s ease;
+}
+
+#diferencaPeso {
+    font-weight: bold;
+    margin-top: 5px;
+}
