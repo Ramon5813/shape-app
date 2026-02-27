@@ -212,3 +212,103 @@ function apagarReceita(index) {
     localStorage.setItem("receitas", JSON.stringify(receitas));
     carregarReceitas();
 }
+// =====================================
+// ================= MEDIDAS CORPORAIS
+// =====================================
+
+window.addEventListener("load", configurarMedidas);
+
+function configurarMedidas() {
+
+    const form = document.getElementById("formMedidas");
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const medidas = JSON.parse(localStorage.getItem("medidas")) || [];
+
+        const data = document.getElementById("data").value;
+        const cintura = document.getElementById("cintura").value;
+        const peito = document.getElementById("peito").value;
+        const braco = document.getElementById("braco").value;
+        const perna = document.getElementById("perna").value;
+        const editIndex = document.getElementById("editIndexMedida").value;
+
+        const novaMedida = {
+            data,
+            cintura,
+            peito,
+            braco,
+            perna
+        };
+
+        if (editIndex === "") {
+            medidas.push(novaMedida);
+        } else {
+            medidas[editIndex] = novaMedida;
+        }
+
+        localStorage.setItem("medidas", JSON.stringify(medidas));
+
+        form.reset();
+        document.getElementById("editIndexMedida").value = "";
+
+        carregarMedidas();
+    });
+
+    carregarMedidas();
+}
+
+function carregarMedidas() {
+
+    const lista = document.getElementById("lista-medidas");
+    if (!lista) return;
+
+    const medidas = JSON.parse(localStorage.getItem("medidas")) || [];
+
+    lista.innerHTML = "";
+
+    medidas.forEach(function (medida, index) {
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <h3>${medida.data}</h3>
+            <p>Cintura: ${medida.cintura || "-"} cm</p>
+            <p>Peito: ${medida.peito || "-"} cm</p>
+            <p>Braço: ${medida.braco || "-"} cm</p>
+            <p>Perna: ${medida.perna || "-"} cm</p>
+            <button onclick="editarMedida(${index})">Editar</button>
+            <button onclick="apagarMedida(${index})">Apagar</button>
+        `;
+
+        lista.appendChild(card);
+    });
+}
+
+function editarMedida(index) {
+
+    const medidas = JSON.parse(localStorage.getItem("medidas")) || [];
+    const medida = medidas[index];
+
+    document.getElementById("data").value = medida.data;
+    document.getElementById("cintura").value = medida.cintura;
+    document.getElementById("peito").value = medida.peito;
+    document.getElementById("braco").value = medida.braco;
+    document.getElementById("perna").value = medida.perna;
+    document.getElementById("editIndexMedida").value = index;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function apagarMedida(index) {
+
+    const medidas = JSON.parse(localStorage.getItem("medidas")) || [];
+    medidas.splice(index, 1);
+
+    localStorage.setItem("medidas", JSON.stringify(medidas));
+    carregarMedidas();
+}
+
